@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-/*
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
@@ -45,92 +44,4 @@ public class PlayerMovement : MonoBehaviour
         Aim.rotation = Quaternion.LookRotation(Vector3.forward, rotatedWorldPos);
     }
     public Vector2 MoveInput => moveInput;
-}
-*/
-
-
-[RequireComponent(typeof(Rigidbody2D))]
-public class PlayerMovement : MonoBehaviour
-{
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private Camera mainCamera;
-    [SerializeField] private Transform aim;
-
-    private Rigidbody2D rb;
-    private Vector2 moveInput;
-    private Vector2 aimDirection = Vector2.down;
-
-    public Vector2 MoveInput => moveInput;
-    public Vector2 AimDirection => aimDirection;
-
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-
-        if (mainCamera == null)
-        {
-            mainCamera = Camera.main;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        Vector2 direction = Vector2.ClampMagnitude(moveInput, 1f);
-        rb.linearVelocity = direction * moveSpeed;
-    }
-
-    private void Update()
-    {
-        UpdateAim();
-    }
-
-    public void Move(InputAction.CallbackContext context)
-    {
-        moveInput = context.ReadValue<Vector2>();
-    }
-
-    public void Look(InputAction.CallbackContext context)
-    {
-        // The mouse position is processed in Update.
-        // This callback is retained for the Input Action.
-    }
-
-    private void UpdateAim()
-    {
-        if (Mouse.current == null || mainCamera == null)
-        {
-            return;
-        }
-
-        Vector2 mouseScreenPosition =
-            Mouse.current.position.ReadValue();
-
-        float cameraDistance = Mathf.Abs(
-            mainCamera.transform.position.z - transform.position.z
-        );
-
-        Vector3 mouseScreenPosition3D = new Vector3(
-            mouseScreenPosition.x,
-            mouseScreenPosition.y,
-            cameraDistance
-        );
-
-        Vector3 mouseWorldPosition =
-            mainCamera.ScreenToWorldPoint(mouseScreenPosition3D);
-
-        Vector2 direction =
-            (Vector2)(mouseWorldPosition - transform.position);
-
-        if (direction.sqrMagnitude < 0.0001f)
-        {
-            return;
-        }
-
-        aimDirection = direction.normalized;
-
-        if (aim != null)
-        {
-            aim.right = aimDirection;
-        }
-    }
 }
