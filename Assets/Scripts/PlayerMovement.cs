@@ -42,4 +42,5 @@ public class PlayerMovement : MonoBehaviour
         Vector3 rotatedWorldPos = Quaternion.Euler(0,0,180) * targetWorldPos;
         Aim.rotation = Quaternion.LookRotation(Vector3.forward, rotatedWorldPos);
     }
+    public Vector2 MoveInput => moveInput;
 }
