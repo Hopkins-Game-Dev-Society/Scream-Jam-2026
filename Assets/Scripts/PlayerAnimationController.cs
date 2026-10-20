@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerAnimationController : MonoBehaviour
 {
@@ -11,11 +10,17 @@ public class PlayerAnimationController : MonoBehaviour
         Right = 3
     }
 
+    //Going to need to use later for specifying different attack animations depending on current layout for player
+    private enum AttackAnimation
+    {
+        Lion = 0,
+        Tin = 1,
+        Scarecrow = 2
+    }
+
     [Header("References")]
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private Animator animator;
-    [SerializeField] private Camera mainCamera;
-    [SerializeField] private Transform playerTransform;
 
     [Header("Settings")]
     [SerializeField] private float movementThreshold = 0.01f;
@@ -25,80 +30,43 @@ public class PlayerAnimationController : MonoBehaviour
     private static readonly int IsMovingHash =
         Animator.StringToHash("IsMoving");
 
-    private static readonly int FacingHash =
+    private static readonly int FacingDirectionHash =
         Animator.StringToHash("FacingDirection");
 
-    private void Awake()
-    {
-        if (mainCamera == null)
-        {
-            mainCamera = Camera.main;
-        }
-
-        if (playerTransform == null)
-        {
-            playerTransform = transform;
-        }
-    }
-
-
-    //Currently having a problem with the facing direction (is moving too sensitive right now)
     private void Update()
     {
-        UpdateFacingDirection();
-
-        Vector2 input = playerMovement.MoveInput;
-
-        bool isMoving = input.sqrMagnitude >
-            movementThreshold * movementThreshold;
-
-        animator.SetBool(IsMovingHash, isMoving);
-        animator.SetInteger(FacingHash, (int)facing);
-    }
-
-    private void UpdateFacingDirection()
-    {
-        if (Mouse.current == null || mainCamera == null)
+        if (playerMovement == null || animator == null)
         {
             return;
         }
 
-        Vector2 mousePosition =
-            Mouse.current.position.ReadValue();
+        UpdateFacingDirection(playerMovement.AimDirection);
 
-        float cameraDistance = Mathf.Abs(
-            mainCamera.transform.position.z -
-            playerTransform.position.z);
+        bool isMoving =
+            playerMovement.MoveInput.sqrMagnitude >
+            movementThreshold * movementThreshold;
 
-        Vector3 mouseScreenPosition = new Vector3(
-            mousePosition.x,
-            mousePosition.y,
-            cameraDistance
-        );
+        animator.SetBool(IsMovingHash, isMoving);
+        animator.SetInteger(FacingDirectionHash, (int)facing);
+    }
 
-        Vector3 mouseWorldPosition =
-            mainCamera.ScreenToWorldPoint(mouseScreenPosition);
-
-        Vector2 direction =
-            (Vector2)(mouseWorldPosition - playerTransform.position);
-
-        // Avoid changing direction when the cursor is
-        // exactly on top of the player.
+    private void UpdateFacingDirection(Vector2 direction)
+    {
         if (direction.sqrMagnitude < 0.0001f)
         {
             return;
         }
 
-        // Horizontal wins when both axes are equally distant.
+        // Horizontal takes priority when the distances are equal.
         if (Mathf.Abs(direction.x) >= Mathf.Abs(direction.y))
         {
-            facing = direction.x < 0
+            facing = direction.x < 0f
                 ? FacingDirection.Left
                 : FacingDirection.Right;
         }
         else
         {
-            facing = direction.y < 0
+            facing = direction.y < 0f
                 ? FacingDirection.Down
                 : FacingDirection.Up;
         }

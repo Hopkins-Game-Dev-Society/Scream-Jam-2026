@@ -450,12 +450,32 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 134537244638658971, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 134537244638658971, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 134537244638658971, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -2015329733
+      objectReference: {fileID: 0}
     - target: {fileID: 1709226125237903116, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5304691163795667550, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6443878340962019384, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
       propertyPath: Aim
+      value: 
+      objectReference: {fileID: 2978532167971952008}
+    - target: {fileID: 6443878340962019384, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
+      propertyPath: aim
       value: 
       objectReference: {fileID: 2978532167971952008}
     - target: {fileID: 7220669131003310013, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
@@ -497,6 +517,22 @@ PrefabInstance:
     - target: {fileID: 7220669131003310013, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7262719230637267163, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7262719230637267163, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7262719230637267163, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -2015329733
+      objectReference: {fileID: 0}
+    - target: {fileID: 8290589997777068422, guid: bc8b86721c2ed6348b3103d16f7ddbf6, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
