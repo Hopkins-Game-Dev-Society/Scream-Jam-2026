@@ -1,0 +1,311 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public enum Facing
+{
+    Down,
+    Up,
+    Left,
+    Right
+}
+
+// What a character is made of. The limb in each body-part socket, which way it's facing,
+// the stat bonuses its limbs add up to, and the attacks its arms give it.
+// Used by both the player and enemies, so a corpse's limbs read the same way as the player's.
+[RequireComponent(typeof(Health))]
+public class Body : MonoBehaviour
+{
+    private static readonly BodyPart[] Slots =
+    {
+        BodyPart.Head,
+        BodyPart.Chest,
+        BodyPart.LeftArm,
+        BodyPart.RightArm,
+        BodyPart.LeftLeg,
+        BodyPart.RightLeg
+    };
+
+    [Header("Limb Sockets")]
+    [Tooltip("The animated body part objects under Character Visuals. Each holds one limb prefab instance.")]
+    [SerializeField] private Transform headSocket;
+    [SerializeField] private Transform chestSocket;
+    [SerializeField] private Transform leftArmSocket;
+    [SerializeField] private Transform rightArmSocket;
+    [SerializeField] private Transform leftLegSocket;
+    [SerializeField] private Transform rightLegSocket;
+
+    [Header("Events")]
+    [Tooltip("Fired after a limb is swapped, and once at start so listeners can set themselves up.")]
+    [SerializeField] private UnityEvent onLimbsChanged = new UnityEvent();
+
+    private static readonly HashSet<Body> all = new HashSet<Body>();
+
+    private readonly Dictionary<BodyPart, Limb> limbs = new Dictionary<BodyPart, Limb>();
+    private readonly Dictionary<BodyPart, MeleeAttack> attacks = new Dictionary<BodyPart, MeleeAttack>();
+    private readonly Dictionary<Stat, float> statBonuses = new Dictionary<Stat, float>();
+    private readonly List<SpriteRenderer> renderers = new List<SpriteRenderer>();
+    private Health health;
+    private float baseMaxHealth;
+
+    // Every active body in the scene like for finding a corpse to loot.
+    public static IReadOnlyCollection<Body> All => all;
+
+    public Health Health => health;
+    public Facing Facing { get; private set; } = Facing.Down;
+    public UnityEvent OnLimbsChanged => onLimbsChanged;
+
+    public bool IsAttacking
+    {
+        get
+        {
+            foreach (MeleeAttack attack in attacks.Values)
+            {
+                if (attack != null && attack.IsAttacking)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    private void Awake()
+    {
+        health = GetComponent<Health>();
+        baseMaxHealth = health.MaxHealth;
+
+        FindStartingLimbs();
+    }
+
+    private void OnEnable()
+    {
+        all.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        all.Remove(this);
+    }
+
+    private void Start()
+    {
+        // Health has set itself up by now so a max health bonus also tops up current health.
+        ApplyStats();
+        onLimbsChanged.Invoke();
+    }
+
+    // World space box around every limb's sprite for things like knowingif  the player is standing over a corpse.
+    public Bounds GetVisualBounds()
+    {
+        bool found = false;
+        Bounds bounds = new Bounds(transform.position, Vector3.zero);
+
+        foreach (Limb limb in limbs.Values)
+        {
+            if (limb == null)
+            {
+                continue;
+            }
+
+            limb.GetComponentsInChildren(renderers);
+
+            foreach (SpriteRenderer spriteRenderer in renderers)
+            {
+                if (found)
+                {
+                    bounds.Encapsulate(spriteRenderer.bounds);
+                }
+                else
+                {
+                    bounds = spriteRenderer.bounds;
+                    found = true;
+                }
+            }
+        }
+
+        return bounds;
+    }
+
+    // Returns the limb in a slot or null if it's empty.
+    public Limb GetLimb(BodyPart slot)
+    {
+        return limbs.TryGetValue(slot, out Limb limb) ? limb : null;
+    }
+
+    // Returns the attack the limb in a slot gives (arms) or null if it has none.
+    public MeleeAttack GetAttack(BodyPart slot)
+    {
+        return attacks.TryGetValue(slot, out MeleeAttack attack) ? attack : null;
+    }
+
+    // Total of every equipped limb's modifiers for a stat. Add it to the character's base value.
+    public float GetStatBonus(Stat stat)
+    {
+        return statBonuses.TryGetValue(stat, out float bonus) ? bonus : 0f;
+    }
+
+    // Replaces the limb in the prefab's slot with a fresh instance of the prefab. Returns the new limb.
+    public Limb ReplaceLimb(Limb prefab)
+    {
+        Transform socket = GetSocket(prefab.Slot);
+
+        if (socket == null)
+        {
+            Debug.LogError($"Body: the {prefab.Slot} socket isn't assigned.", this);
+            return null;
+        }
+
+        RemoveLimb(prefab.Slot);
+
+        Limb limb = Instantiate(prefab, socket);
+        AddLimb(prefab.Slot, limb);
+        ApplyStats();
+
+        onLimbsChanged.Invoke();
+        return limb;
+    }
+
+    // Turns the body toward a direction. Horizontal has priority when tied
+    public void FaceDirection(Vector2 direction)
+    {
+        if (direction.sqrMagnitude < 0.0001f)
+        {
+            return;
+        }
+
+        Facing facing;
+
+        if (Mathf.Abs(direction.x) >= Mathf.Abs(direction.y))
+        {
+            facing = direction.x < 0f ? Facing.Left : Facing.Right;
+        }
+        else
+        {
+            facing = direction.y < 0f ? Facing.Down : Facing.Up;
+        }
+
+        if (facing == Facing)
+        {
+            return;
+        }
+
+        Facing = facing;
+
+        foreach (Limb limb in limbs.Values)
+        {
+            ShowFacing(limb);
+        }
+    }
+
+    // The prefab starts with a limb prefab instance already inside each socket.
+    private void FindStartingLimbs()
+    {
+        foreach (BodyPart slot in Slots)
+        {
+            Transform socket = GetSocket(slot);
+
+            if (socket == null)
+            {
+                Debug.LogError($"Body: the {slot} socket isn't assigned.", this);
+                continue;
+            }
+
+            Limb limb = socket.GetComponentInChildren<Limb>();
+
+            if (limb == null)
+            {
+                Debug.LogError($"Body: the {slot} socket has no limb prefab in it.", socket);
+                continue;
+            }
+
+            if (limb.Slot != slot)
+            {
+                Debug.LogError($"Body: {limb.name} is set to the {limb.Slot} slot but is in the {slot} socket.", limb);
+            }
+
+            AddLimb(slot, limb);
+        }
+    }
+
+    private void AddLimb(BodyPart slot, Limb limb)
+    {
+        limbs[slot] = limb;
+
+        // Attacks live on the character root so they can rotate to face a target
+        // without being moved around by the limb animations.
+        if (limb.AttackPrefab != null)
+        {
+            attacks[slot] = Instantiate(limb.AttackPrefab, transform);
+        }
+
+        ShowFacing(limb);
+    }
+
+    private void RemoveLimb(BodyPart slot)
+    {
+        if (limbs.TryGetValue(slot, out Limb limb) && limb != null)
+        {
+            Destroy(limb.gameObject);
+        }
+
+        if (attacks.TryGetValue(slot, out MeleeAttack attack) && attack != null)
+        {
+            Destroy(attack.gameObject);
+        }
+
+        limbs.Remove(slot);
+        attacks.Remove(slot);
+    }
+
+    private void ApplyStats()
+    {
+        statBonuses.Clear();
+
+        foreach (Limb limb in limbs.Values)
+        {
+            if (limb == null)
+            {
+                continue;
+            }
+
+            foreach (StatModifier modifier in limb.StatModifiers)
+            {
+                statBonuses[modifier.stat] = GetStatBonus(modifier.stat) + modifier.amount;
+            }
+        }
+
+        health.SetMaxHealth(baseMaxHealth + GetStatBonus(Stat.MaxHealth));
+
+        foreach (MeleeAttack attack in attacks.Values)
+        {
+            if (attack != null && attack.Hitbox != null)
+            {
+                attack.Hitbox.DamageBonus = GetStatBonus(Stat.Damage);
+            }
+        }
+    }
+
+    private void ShowFacing(Limb limb)
+    {
+        if (limb != null && limb.TryGetComponent(out LimbVisual visual))
+        {
+            visual.SetFacing(Facing);
+        }
+    }
+
+    private Transform GetSocket(BodyPart slot)
+    {
+        switch (slot)
+        {
+            case BodyPart.Head: return headSocket;
+            case BodyPart.Chest: return chestSocket;
+            case BodyPart.LeftArm: return leftArmSocket;
+            case BodyPart.RightArm: return rightArmSocket;
+            case BodyPart.LeftLeg: return leftLegSocket;
+            case BodyPart.RightLeg: return rightLegSocket;
+            default: return null;
+        }
+    }
+}
