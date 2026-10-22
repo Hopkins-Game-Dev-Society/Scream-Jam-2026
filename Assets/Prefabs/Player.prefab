@@ -115,7 +115,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &7823687602208071940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,6 +265,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bc4469e4-e594-49dd-9743-be03f08364dd
+    m_ActionName: 'Player/Interact[/Keyboard/f]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -310,6 +314,8 @@ MonoBehaviour:
   onDied:
     m_PersistentCalls:
       m_Calls: []
+  rb: {fileID: 3916037456992321961}
+  knockbackForce: 50
 --- !u!114 &9021773933911176951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,6 +741,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD
       objectReference: {fileID: 0}
+    - target: {fileID: 3849467901833598141, guid: 567b963fb3fc54e4ea8e7ccc3608bf32, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 3955458676567526061, guid: 567b963fb3fc54e4ea8e7ccc3608bf32, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4219259535685944037, guid: 567b963fb3fc54e4ea8e7ccc3608bf32, type: 3}
       propertyPath: health
       value: 
@@ -982,6 +996,10 @@ PrefabInstance:
     - target: {fileID: 2957506826113476772, guid: 10b489250a4b34cc7a3fd16ee07f34b2, type: 3}
       propertyPath: m_Name
       value: LootMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8571504974613987438, guid: 10b489250a4b34cc7a3fd16ee07f34b2, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

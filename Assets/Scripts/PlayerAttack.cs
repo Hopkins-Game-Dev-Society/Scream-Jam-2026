@@ -44,3 +44,6 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 }
+
+//Needs to be updated so that if the player is attacking it checks what
+//body parts they have attached and does the seprate attacks (probably not awful to do) 

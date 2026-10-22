@@ -137,7 +137,9 @@ public class Body : MonoBehaviour
     public MeleeAttack GetAttack(BodyPart slot)
     {
         return attacks.TryGetValue(slot, out MeleeAttack attack) ? attack : null;
-    }
+    } //This is the big section here where everything is going to be actually implemented
+
+    //Also need to create basically identical systems to this but for the special and dash slots.
 
     // Total of every equipped limb's modifiers for a stat. Add it to the character's base value.
     public float GetStatBonus(Stat stat)

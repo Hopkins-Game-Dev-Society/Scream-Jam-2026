@@ -117,7 +117,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &866876404353018800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f374082c2a643c54eae56339e6bcf074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  moveSpeed: 25
+  moveSpeed: 0
   player: {fileID: 0}
   sightCone: {fileID: 6785665010789582453}
   patrolPointA: {fileID: 71401605540086817}
@@ -171,6 +171,8 @@ MonoBehaviour:
   onDied:
     m_PersistentCalls:
       m_Calls: []
+  rb: {fileID: 3916037456992321961}
+  knockbackForce: 50
 --- !u!114 &3154703873196874976
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -42,6 +42,9 @@ public class Health : MonoBehaviour
     [SerializeField] private UnityEvent<DamageInfo> onDamaged = new UnityEvent<DamageInfo>();
     [SerializeField] private UnityEvent<DamageInfo> onDied = new UnityEvent<DamageInfo>(); // receives the killing blow
 
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private float knockbackForce = 5f;
+
     private float currentHealth;
     private float invincibleUntil;
 
@@ -76,6 +79,17 @@ public class Health : MonoBehaviour
         currentHealth = Mathf.Max(currentHealth - damage.Amount, 0f);
         invincibleUntil = Time.time + invincibilityDuration;
 
+
+        // Apply knockback away from the damage source.
+        if (rb != null)
+        {
+            Vector2 knockbackDirection =
+                ((Vector2)transform.position - damage.Direction).normalized;
+
+            rb.AddForce(knockbackDirection * knockbackForce,
+                ForceMode2D.Impulse);
+        }
+
         onDamaged.Invoke(damage);
         onHealthChanged.Invoke(currentHealth, maxHealth);
 
@@ -85,7 +99,7 @@ public class Health : MonoBehaviour
         }
 
         return true;
-    }
+    } //Adding element here so that if you take damage you also get knocked back a bit
 
     public void Heal(float amount)
     {
