@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 moveInput; 
     private Vector2 aimDirection = Vector2.down;
+    private Vector2 lookScreenPos;
+    private bool hasLookInput;
 
     public Transform Aim;
 
@@ -32,17 +34,28 @@ public class PlayerMovement : MonoBehaviour
         moveInput = context.ReadValue<Vector2>();
     }
 
+    void Update()
+    {
+        if (hasLookInput)
+            AimAt(lookScreenPos);
+    }
+
     public void Look(InputAction.CallbackContext context)
     {
+        lookScreenPos = context.ReadValue<Vector2>();
+        hasLookInput = true;
+        AimAt(lookScreenPos);
+    }
+
+    private void AimAt(Vector2 mouseScreenPos)
+    {
         // Aiming logic
-        Vector2 mouseScreenPos = context.ReadValue<Vector2>();
         Vector3 mousePos3 = mouseScreenPos; //convert to vector3 pos to do world pos calc correctly
         mousePos3.z = -Camera.main.transform.position.z; //adds camera offset
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos3); //converts mouse screen pos to world pos
         Vector3 targetWorldPos = worldPos - transform.position;
         if (((Vector2)targetWorldPos).sqrMagnitude > 0.0001f)
             aimDirection = ((Vector2)targetWorldPos).normalized;
-        print(targetWorldPos);
         Vector3 rotatedWorldPos = Quaternion.Euler(0,0,180) * targetWorldPos; //unsure the meaning for this in regards to the aiming logic
         Aim.rotation = Quaternion.LookRotation(Vector3.forward, rotatedWorldPos);
     }

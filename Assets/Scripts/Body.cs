@@ -12,7 +12,7 @@ public enum Facing
 
 // What a character is made of. The limb in each body-part socket, which way it's facing,
 // the stat bonuses its limbs add up to, and the attacks its arms give it.
-// Used by both the player and enemies, so a corpse's limbs read the same way as the player's.
+// Used by both the player and enemies.
 [RequireComponent(typeof(Health))]
 public class Body : MonoBehaviour
 {
@@ -48,7 +48,7 @@ public class Body : MonoBehaviour
     private Health health;
     private float baseMaxHealth;
 
-    // Every active body in the scene like for finding a corpse to loot.
+    // Every active body in the scene.
     public static IReadOnlyCollection<Body> All => all;
 
     public Health Health => health;
@@ -91,12 +91,11 @@ public class Body : MonoBehaviour
 
     private void Start()
     {
-        // Health has set itself up by now so a max health bonus also tops up current health.
         ApplyStats();
         onLimbsChanged.Invoke();
     }
 
-    // World space box around every limb's sprite for things like knowingif  the player is standing over a corpse.
+    // World space box around every limb's sprite.
     public Bounds GetVisualBounds()
     {
         bool found = false;
@@ -199,7 +198,6 @@ public class Body : MonoBehaviour
         }
     }
 
-    // The prefab starts with a limb prefab instance already inside each socket.
     private void FindStartingLimbs()
     {
         foreach (BodyPart slot in Slots)
@@ -232,15 +230,26 @@ public class Body : MonoBehaviour
     private void AddLimb(BodyPart slot, Limb limb)
     {
         limbs[slot] = limb;
+        SetLayer(limb.gameObject);
 
-        // Attacks live on the character root so they can rotate to face a target
-        // without being moved around by the limb animations.
         if (limb.AttackPrefab != null)
         {
             attacks[slot] = Instantiate(limb.AttackPrefab, transform);
+            SetLayer(attacks[slot].gameObject);
+
+            // Each arm swings across from its own side.
+            attacks[slot].SweepFromLeft = slot == BodyPart.LeftArm;
         }
 
         ShowFacing(limb);
+    }
+
+    private void SetLayer(GameObject root)
+    {
+        foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+        {
+            child.gameObject.layer = gameObject.layer;
+        }
     }
 
     private void RemoveLimb(BodyPart slot)

@@ -9,7 +9,7 @@ public class LimbVisual : MonoBehaviour
     [SerializeField] private Sprite back;   // facing up
     [SerializeField] private Sprite side;   // facing right
 
-    [Tooltip("Tick on left-side limbs (e.g. a variant of the right arm) so their front and back views are mirrored.")]
+    [Tooltip("Tick on left-side limbs, like a variant of the right arm, so their front and back views are mirrored.")]
     [SerializeField] private bool mirrored;
 
     public Sprite Front => front;
@@ -41,8 +41,6 @@ public class LimbVisual : MonoBehaviour
     {
         spriteRenderer.sprite = sprite;
 
-        // Mirror the whole limb (sprite, its offset and the hurtbox) around the socket rather than
-        // only flipping the sprite, so the limb stays attached at the joint on both sides.
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x) * (mirror ? -1f : 1f);
         transform.localScale = scale;

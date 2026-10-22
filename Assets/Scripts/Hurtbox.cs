@@ -1,7 +1,6 @@
 using UnityEngine;
 
-// Marks a collider as a body part that can take damage. Hitboxes only hit colliders that have one
-// so weapons, props, and trigger zones aren't hit by accident.
+// Marks a collider as a body part that can take damage. Hitboxes only hit colliders that have one.
 // In a limb prefab put it on the root next to the Limb and the colliders. Damage goes to the
 // closest Health above it and the body part comes from the Limb.
 [RequireComponent(typeof(Collider2D))]

@@ -25,7 +25,6 @@ public readonly struct DamageInfo
 }
 
 // Shared health component for the player and enemies.
-// Hurtboxes on child body parts find it with GetComponentInParent so a hit on any limb counts against this Health.
 public class Health : MonoBehaviour
 {
     [SerializeField] private Team team = Team.Enemy;
@@ -63,7 +62,6 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
-        // Lets health bars set themselves up without polling.
         onHealthChanged.Invoke(currentHealth, maxHealth);
     }
 
@@ -101,7 +99,7 @@ public class Health : MonoBehaviour
     }
 
     // Gaining max health heals by the same amount. Losing it only lowers
-    // current health if it's above the new max so swapping limbs wont kill you
+    // current health if it's above the new max.
     public void SetMaxHealth(float newMaxHealth)
     {
         newMaxHealth = Mathf.Max(newMaxHealth, 1f);

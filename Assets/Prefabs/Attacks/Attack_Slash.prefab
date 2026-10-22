@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8949756069339064517
+--- !u!1 &3836697524202784857
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,41 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8955017106948919530}
-  - component: {fileID: 1347098887156532767}
-  - component: {fileID: 4512824764725635784}
-  - component: {fileID: 4033377393239780672}
-  - component: {fileID: 2957765602326523687}
+  - component: {fileID: 7600076687463993407}
+  - component: {fileID: 3925538870703173339}
   m_Layer: 0
-  m_Name: Attack_Slash
+  m_Name: Blade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8955017106948919530
+--- !u!4 &7600076687463993407
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8949756069339064517}
+  m_GameObject: {fileID: 3836697524202784857}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 1}
+  m_LocalScale: {x: 4, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 8955017106948919530}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1347098887156532767
+--- !u!212 &3925538870703173339
 SpriteRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8949756069339064517}
+  m_GameObject: {fileID: 3836697524202784857}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -84,17 +81,52 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 5
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7514709467193799808, guid: 4a91d63dcf1444a2780f22a0cd98192a, type: 3}
+  m_Sprite: {fileID: -463773241157620541, guid: 7757033d691e44918a14850cba661728, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2.85}
+  m_Size: {x: 3, y: 0.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &8949756069339064517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8955017106948919530}
+  - component: {fileID: 4512824764725635784}
+  - component: {fileID: 4033377393239780672}
+  - component: {fileID: 2957765602326523687}
+  m_Layer: 0
+  m_Name: Attack_Slash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8955017106948919530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8949756069339064517}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7600076687463993407}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!60 &4512824764725635784
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -142,19 +174,16 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0}
-      - {x: 1.4142135, y: -1.4142135}
-      - {x: 1.5867066, y: -1.2175229}
-      - {x: 1.7320508, y: -1}
-      - {x: 1.847759, y: -0.7653669}
-      - {x: 1.9318516, y: -0.517638}
-      - {x: 1.9828898, y: -0.26105243}
-      - {x: 2, y: 0}
-      - {x: 1.9828898, y: 0.2610523}
-      - {x: 1.9318516, y: 0.51763815}
-      - {x: 1.847759, y: 0.7653669}
-      - {x: 1.7320509, y: 0.99999994}
-      - {x: 1.5867066, y: 1.2175229}
-      - {x: 1.4142135, y: 1.4142135}
+      - {x: 8.485281, y: -8.485281}
+      - {x: 9.829824, y: -6.8829174}
+      - {x: 10.875693, y: -5.0714192}
+      - {x: 11.59111, y: -3.1058283}
+      - {x: 11.954336, y: -1.0458688}
+      - {x: 11.954336, y: 1.0458694}
+      - {x: 11.59111, y: 3.1058288}
+      - {x: 10.875693, y: 5.0714197}
+      - {x: 9.829824, y: 6.8829174}
+      - {x: 8.485281, y: 8.485281}
   m_UseDelaunayMesh: 1
 --- !u!114 &4033377393239780672
 MonoBehaviour:
@@ -171,6 +200,9 @@ MonoBehaviour:
   damage: 1
   alwaysActive: 0
   rehitInterval: 0
+  obstacles:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &2957765602326523687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,10 +216,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
   hitbox: {fileID: 4033377393239780672}
-  visual: {fileID: 1347098887156532767}
+  visual: {fileID: 3925538870703173339}
+  striker: {fileID: 7600076687463993407}
+  motion: 0
   range: 12
+  sweepAngle: 90
+  thrustWidth: 1.6
+  motionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   windupTime: 0
-  activeTime: 0.15
+  activeTime: 0.2
   cooldown: 0.35
   onAttackStarted:
     m_PersistentCalls:
