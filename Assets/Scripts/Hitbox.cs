@@ -21,6 +21,8 @@ public class Hitbox : MonoBehaviour
     private Health owner;
     private bool isActive;
 
+    public event System.Action<Health> TargetHit;
+
     private readonly List<Collider2D> overlaps = new List<Collider2D>();
 
     // The body part to hit on each target this physics step.
@@ -50,6 +52,11 @@ public class Hitbox : MonoBehaviour
         {
             Activate();
         }
+    }
+
+    public void SetOwner(Health newOwner)
+    {
+        owner = newOwner;
     }
 
     public void Activate()
@@ -108,6 +115,7 @@ public class Hitbox : MonoBehaviour
             if (hit.Key.TakeDamage(info))
             {
                 lastHitTimes[hit.Key] = Time.time;
+                TargetHit?.Invoke(hit.Key);
             }
         }
     }

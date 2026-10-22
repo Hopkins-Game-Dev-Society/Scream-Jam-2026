@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: slot
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2343307755295320086, guid: 4f44b7dcbb3194d3583bf32c8aeb178d, type: 3}
+      propertyPath: attackPrefab
+      value: 
+      objectReference: {fileID: 1256721065991693196, guid: e0865c827599446dc96db10787bae83a, type: 3}
     - target: {fileID: 5217130993886808328, guid: 4f44b7dcbb3194d3583bf32c8aeb178d, type: 3}
       propertyPath: m_Name
       value: Tin_LeftArm

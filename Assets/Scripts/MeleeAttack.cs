@@ -12,7 +12,7 @@ public enum AttackMotion
 // An attack that moves through a sweep or thrust. Each physics step the hitbox covers only the ground
 // the striker passed over since the last step.
 [DefaultExecutionOrder(-10)]
-public class MeleeAttack : MonoBehaviour
+public class MeleeAttack : LimbAttack
 {
     [SerializeField] private Hitbox hitbox;
 
@@ -59,7 +59,11 @@ public class MeleeAttack : MonoBehaviour
     public Hitbox Hitbox => hitbox;
     // In world units.
     public float Range => range * (transform.parent != null ? Mathf.Abs(transform.parent.lossyScale.x) : 1f);
-    public bool IsAttacking { get; private set; }
+    //public bool IsAttacking { get; private set; }
+
+    public bool isAttacking;
+
+    public override bool IsAttacking => isAttacking;
     public bool CanAttack => !IsAttacking && Time.time >= nextAttackTime && (owner == null || !owner.IsDead);
     public UnityEvent OnAttackStarted => onAttackStarted;
     // Sweeps start on the left of the aim and finish on the right. Set by Body for left arms.
@@ -86,7 +90,7 @@ public class MeleeAttack : MonoBehaviour
     }
 
     // Points the attack along a direction and starts it. Returns true if an attack was started.
-    public bool TryAttack(Vector2 direction)
+    public override bool TryAttack(Vector2 direction)
     {
         if (hitbox == null || hitArea == null || !CanAttack || direction.sqrMagnitude < 0.0001f)
         {
@@ -102,7 +106,7 @@ public class MeleeAttack : MonoBehaviour
 
     private IEnumerator AttackRoutine()
     {
-        IsAttacking = true;
+        isAttacking = true;
         onAttackStarted.Invoke();
 
         if (windupTime > 0f)
@@ -124,7 +128,7 @@ public class MeleeAttack : MonoBehaviour
 
         SetActive(false);
 
-        IsAttacking = false;
+        isAttacking = false;
         nextAttackTime = Time.time + cooldown;
     }
 
@@ -241,7 +245,7 @@ public class MeleeAttack : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
-        IsAttacking = false;
+        isAttacking = false;
 
         if (hitbox != null)
         {

@@ -42,7 +42,8 @@ public class Body : MonoBehaviour
     private static readonly HashSet<Body> all = new HashSet<Body>();
 
     private readonly Dictionary<BodyPart, Limb> limbs = new Dictionary<BodyPart, Limb>();
-    private readonly Dictionary<BodyPart, MeleeAttack> attacks = new Dictionary<BodyPart, MeleeAttack>();
+    //private readonly Dictionary<BodyPart, MeleeAttack> attacks = new Dictionary<BodyPart, MeleeAttack>();
+    private readonly Dictionary<BodyPart, LimbAttack> attacks = new Dictionary<BodyPart, LimbAttack>();
     private readonly Dictionary<BodyPart, PlayerSpecial> specials = new Dictionary<BodyPart, PlayerSpecial>();
     //private readonly Dictionary<BodyPart, PlayerDash> dashes = new Dictionary<BodyPart, PlayerDash>();
     private readonly Dictionary<Stat, float> statBonuses = new Dictionary<Stat, float>();
@@ -65,7 +66,7 @@ public class Body : MonoBehaviour
     {
         get
         {
-            foreach (MeleeAttack attack in attacks.Values)
+            foreach (LimbAttack attack in attacks.Values)
             {
                 if (attack != null && attack.IsAttacking)
                 {
@@ -140,10 +141,22 @@ public class Body : MonoBehaviour
     }
 
     // Returns the attack the limb in a slot gives (arms) or null if it has none.
+    //public MeleeAttack GetAttack(BodyPart slot)
+    //{
+        //return attacks.TryGetValue(slot, out LimbAttack attack) ? attack : null;
+    //} //This is the big section here where everything is going to be actually implemented
+
+    public LimbAttack GetLimbAttack(BodyPart slot)
+    {
+        return attacks.TryGetValue(slot, out LimbAttack attack)
+            ? attack
+            : null;
+    }
+
     public MeleeAttack GetAttack(BodyPart slot)
     {
-        return attacks.TryGetValue(slot, out MeleeAttack attack) ? attack : null;
-    } //This is the big section here where everything is going to be actually implemented
+        return GetLimbAttack(slot) as MeleeAttack;
+    }
 
     //Also need to create basically identical systems to this but for the special and dash slots.
 
@@ -316,11 +329,14 @@ public class Body : MonoBehaviour
 
         if (limb.AttackPrefab != null)
         {
-            attacks[slot] = Instantiate(limb.AttackPrefab, transform);
-            SetLayer(attacks[slot].gameObject);
+            LimbAttack attack = Instantiate(limb.AttackPrefab, transform);
+            attacks[slot] = attack;
+            SetLayer(attack.gameObject);
 
-            // Each arm swings across from its own side.
-            attacks[slot].SweepFromLeft = slot == BodyPart.LeftArm;
+            if (attack is MeleeAttack meleeAttack)
+            {
+                meleeAttack.SweepFromLeft = slot == BodyPart.LeftArm;
+            }
         }
 
         //Added from the origin here
@@ -359,7 +375,7 @@ public class Body : MonoBehaviour
             limbs.Remove(slot);
         }
 
-        if (attacks.TryGetValue(slot, out MeleeAttack attack))
+        if (attacks.TryGetValue(slot, out LimbAttack attack))
         {
             if (attack != null)
             {
@@ -405,11 +421,12 @@ public class Body : MonoBehaviour
 
         health.SetMaxHealth(baseMaxHealth + GetStatBonus(Stat.MaxHealth));
 
-        foreach (MeleeAttack attack in attacks.Values)
+        foreach (LimbAttack attack in attacks.Values)
         {
-            if (attack != null && attack.Hitbox != null)
+            if (attack is MeleeAttack meleeAttack
+                && meleeAttack.Hitbox != null)
             {
-                attack.Hitbox.DamageBonus = GetStatBonus(Stat.Damage);
+                meleeAttack.Hitbox.DamageBonus = GetStatBonus(Stat.Damage);
             }
         }
     }

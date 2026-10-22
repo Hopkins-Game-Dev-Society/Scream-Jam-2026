@@ -45,6 +45,34 @@ public class PlayerController : MonoBehaviour
         body.OnLimbsChanged.RemoveListener(ApplyLimbStats);
     }
 
+    private void HandleAttackInput()
+    {
+        if (Mouse.current == null || IsDead)
+        {
+            return;
+        }
+
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            TryArmAttack(BodyPart.LeftArm);
+        }
+
+        if (Mouse.current.rightButton.wasPressedThisFrame)
+        {
+            TryArmAttack(BodyPart.RightArm);
+        }
+    }
+
+    private void TryArmAttack(BodyPart slot)
+    {
+        LimbAttack attack = body.GetLimbAttack(slot);
+
+        if (attack != null)
+        {
+            attack.TryAttack(movement.AimDirection);
+        }
+    }
+
     private void HandleSpecialInput()
     {
         if (Keyboard.current == null
@@ -72,6 +100,7 @@ public class PlayerController : MonoBehaviour
         {
             body.FaceDirection(movement.AimDirection);
             HandleSpecialInput();
+            HandleAttackInput();
         }
     }
 
