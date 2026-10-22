@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 
@@ -44,13 +45,37 @@ public class PlayerController : MonoBehaviour
         body.OnLimbsChanged.RemoveListener(ApplyLimbStats);
     }
 
+    private void HandleSpecialInput()
+    {
+        if (Keyboard.current == null
+            || !Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            return;
+        }
+
+        if (IsDead)
+        {
+            return;
+        }
+
+        PlayerSpecial special = body.GetSpecial();
+
+        if (special != null)
+        {
+            special.TryActivate(movement.AimDirection);
+        }
+    }
+
     private void Update()
     {
         if (!IsDead)
         {
             body.FaceDirection(movement.AimDirection);
+            HandleSpecialInput();
         }
     }
+
+
 
 
     public bool EquipLimb(LimbKind kind, BodyPart slot)
