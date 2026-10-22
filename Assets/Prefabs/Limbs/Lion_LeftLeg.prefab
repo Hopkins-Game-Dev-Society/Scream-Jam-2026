@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: slot
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1274437335344192072, guid: 5583e914651e441e3bc063034d82e2d0, type: 3}
+      propertyPath: dashPrefab
+      value: 
+      objectReference: {fileID: -7390094992991459911, guid: 4f49939ea82180a4aa70a521cf1c7a25, type: 3}
     - target: {fileID: 1484934670647010072, guid: 5583e914651e441e3bc063034d82e2d0, type: 3}
       propertyPath: mirrored
       value: 1

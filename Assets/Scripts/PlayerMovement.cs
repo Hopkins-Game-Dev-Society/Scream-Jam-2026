@@ -15,7 +15,17 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 lookScreenPos;
     private bool hasLookInput;
 
+    private bool isDashing;
+    private Vector2 dashVelocity;
+
     public Transform Aim;
+
+    public Vector2 MoveInput => moveInput;
+    public Vector2 AimDirection => aimDirection;
+    public float MoveSpeedBonus { get; set; }
+
+    public bool IsDashing => isDashing;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,10 +34,41 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
+    /*
     void FixedUpdate()
     {
         rb.linearVelocity = moveInput * Mathf.Max(moveSpeed + MoveSpeedBonus, 0f);
+    } */
+
+    private void FixedUpdate()
+    {
+        if (isDashing)
+        {
+            rb.linearVelocity = dashVelocity;
+            return;
+        }
+
+        rb.linearVelocity =
+            moveInput * Mathf.Max(moveSpeed + MoveSpeedBonus, 0f);
     }
+
+    public void StartDash(Vector2 direction, float speed)
+    {
+        if (direction.sqrMagnitude < 0.0001f)
+        {
+            return;
+        }
+
+        isDashing = true;
+        dashVelocity = direction.normalized * speed;
+        rb.linearVelocity = dashVelocity;
+    }
+
+    public void EndDash()
+    {
+        isDashing = false;
+    }
+
 
     public void Move(InputAction.CallbackContext context)
     {
@@ -59,7 +100,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 rotatedWorldPos = Quaternion.Euler(0,0,180) * targetWorldPos; //unsure the meaning for this in regards to the aiming logic
         Aim.rotation = Quaternion.LookRotation(Vector3.forward, rotatedWorldPos);
     }
-    public Vector2 MoveInput => moveInput;
-    public Vector2 AimDirection => aimDirection;
-    public float MoveSpeedBonus { get; set; } // from limb stats, set by PlayerController
+
+    //public Vector2 MoveInput => moveInput;
+    //public Vector2 AimDirection => aimDirection;
+    //public float MoveSpeedBonus { get; set; } // from limb stats, set by PlayerController
 }

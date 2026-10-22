@@ -111,6 +111,8 @@ MonoBehaviour:
   slot: 6
   statModifiers: []
   attackPrefab: {fileID: 0}
+  specialPrefab: {fileID: 0}
+  dashPrefab: {fileID: 986150421036189013, guid: 39c5f1afcaa2f6447b957eb6c5d31352, type: 3}
 --- !u!114 &1484934670647010072
 MonoBehaviour:
   m_ObjectHideFlags: 0

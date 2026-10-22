@@ -63,6 +63,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void HandleDashInput()
+    {
+        if (Keyboard.current == null || IsDead)
+        {
+            return;
+        }
+
+        // Left Shift activates the currently equipped dash.
+        if (Keyboard.current.leftShiftKey.wasPressedThisFrame)
+        {
+            Debug.Log("Dash input detected.");
+            PlayerDash dash = body.GetDash();
+
+            if (dash == null)
+            {
+                Debug.LogWarning("No dash ability found on the current body.");
+                return;
+            }
+
+            Debug.Log($"Dash ability found: {dash.GetType().Name}");
+            Debug.Log($"Aim direction: {movement.AimDirection}");
+
+            if (dash != null)
+            {
+                dash.Activate(movement.AimDirection);
+            }
+        }
+    }
+
     private void TryArmAttack(BodyPart slot)
     {
         LimbAttack attack = body.GetLimbAttack(slot);
@@ -101,6 +130,7 @@ public class PlayerController : MonoBehaviour
             body.FaceDirection(movement.AimDirection);
             HandleSpecialInput();
             HandleAttackInput();
+            HandleDashInput();
         }
     }
 
