@@ -293,6 +293,7 @@ public class Enemy : MonoBehaviour
 
     // Swings with the first arm that can reach the player and is off cooldown.
     // Returns true if the player is within reach of any arm even if both are cooling down.
+    /*
     private bool AttackIfInReach(Vector2 toPlayer)
     {
         Vector2 position = transform.position;
@@ -313,7 +314,59 @@ public class Enemy : MonoBehaviour
         }
 
         return inReach;
+    } */
+
+
+    // Uses projectile arms while chasing and melee arms when the player
+    // is close enough. Returns true when the enemy should stop moving.
+    private bool AttackIfInReach(Vector2 toPlayer)
+    {
+        Vector2 position = transform.position;
+        bool inReach = false;
+        bool hasProjectileArm = false;
+
+        foreach (BodyPart arm in Arms)
+        {
+            LimbAttack attack = body.GetLimbAttack(arm);
+
+            if (attack == null)
+            {
+                continue;
+            }
+
+            // Projectile arms fire toward the player's nearest hurtbox.
+            if (attack is ProjectileAttack)
+            {
+                hasProjectileArm = true;
+                attack.TryAttack(toPlayer);
+                continue;
+            }
+
+            // Preserve the existing melee reach and obstacle checks.
+            if (attack is MeleeAttack meleeAttack)
+            {
+                if (meleeAttack.Hitbox == null ||
+                    toPlayer.magnitude > meleeAttack.Range ||
+                    meleeAttack.Hitbox.IsBlocked(
+                        position, position + toPlayer))
+                {
+                    continue;
+                }
+
+                inReach = true;
+
+                if (meleeAttack.TryAttack(toPlayer))
+                {
+                    break;
+                }
+            }
+        }
+
+        // Ranged enemies hold their position and keep firing as their
+        // attacks come off cooldown. Melee enemies stop within reach.
+        return hasProjectileArm || inReach;
     }
+
 
     private void OnDrawGizmos()
     {

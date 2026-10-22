@@ -79,4 +79,4 @@ MonoBehaviour:
   projectilePrefab: {fileID: -6907756537364364601, guid: 081496ab93968634c9c3306e4730a7ba, type: 3}
   firingPoint: {fileID: 276430826418259425}
   projectileSpeed: 30
-  cooldown: 0.5
+  cooldown: 1

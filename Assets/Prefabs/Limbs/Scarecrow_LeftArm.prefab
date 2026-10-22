@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: slot
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2343307755295320086, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: attackPrefab
+      value: 
+      objectReference: {fileID: -1844899061114675983, guid: 0c24594c176bc784799b0490dd13d665, type: 3}
     - target: {fileID: 5217130993886808328, guid: d39446db42e2f4258a9749ac35671017, type: 3}
       propertyPath: m_Name
       value: Scarecrow_LeftArm
