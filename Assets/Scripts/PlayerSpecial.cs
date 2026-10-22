@@ -14,3 +14,6 @@ public class PlayerSpecial : MonoBehaviour
         
     }
 }
+
+//Will need some sort of meter to show how ready the special actually is as well.
+////Add that to the UI while I also add the functionality to everything 
