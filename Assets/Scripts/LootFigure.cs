@@ -20,6 +20,7 @@ public class LootFigure : MonoBehaviour
 
     private LootSlot[] slots;
 
+    /*
     public void Show(Body body)
     {
         foreach (LootSlot slot in Slots())
@@ -28,6 +29,27 @@ public class LootFigure : MonoBehaviour
             Limb limb = body.GetLimb(slot.BodyPart);
             LimbVisual visual = limb != null ? limb.GetComponent<LimbVisual>() : null;
             slot.Show(visual, joint * pixelsPerUnit, angle, pixelsPerUnit);
+        }
+    } */
+
+    public void Show(Body body)
+    {
+        foreach (LootSlot slot in Slots())
+        {
+            var (joint, angle) = Pose[slot.BodyPart];
+
+            Limb limb = body.GetLimb(slot.BodyPart);
+
+            LimbVisual visual = limb != null
+                ? limb.GetComponentInChildren<LimbVisual>(true)
+                : null;
+
+            slot.Show(
+                visual,
+                joint * pixelsPerUnit,
+                angle,
+                pixelsPerUnit
+            );
         }
     }
 

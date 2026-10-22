@@ -60,8 +60,22 @@ public class Limb : MonoBehaviour
     [Tooltip("Arms only: the attack prefab this arm uses. Left arm = left click, right arm = right click.")]
     [SerializeField] private MeleeAttack attackPrefab;
 
+    [Tooltip("Chest only: the special ability prefab.")]
+    [SerializeField] private PlayerSpecial specialPrefab;
+
+    [Tooltip("Legs only: the dash ability prefab.")]
+    [SerializeField] private PlayerDash dashPrefab;
+
+
     public LimbKind Kind => kind;
     public BodyPart Slot => slot;
     public IReadOnlyList<StatModifier> StatModifiers => statModifiers;
     public MeleeAttack AttackPrefab => attackPrefab;
+    public PlayerSpecial SpecialPrefab => specialPrefab;
+    public PlayerDash DashPrefab => dashPrefab;
+
+    public void SetSlot(BodyPart newSlot)
+    {
+        slot = newSlot;
+    }
 }

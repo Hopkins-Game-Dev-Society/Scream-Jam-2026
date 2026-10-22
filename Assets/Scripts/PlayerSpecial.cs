@@ -1,7 +1,11 @@
 using UnityEngine;
 
-public class PlayerSpecial : MonoBehaviour
+public abstract class PlayerSpecial : MonoBehaviour
 {
+    public abstract float CooldownDuration { get; }
+
+    public abstract void Activate(Vector2 aimDirection);
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
