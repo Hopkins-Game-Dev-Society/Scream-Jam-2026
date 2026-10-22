@@ -43,10 +43,16 @@ public class Body : MonoBehaviour
 
     private readonly Dictionary<BodyPart, Limb> limbs = new Dictionary<BodyPart, Limb>();
     private readonly Dictionary<BodyPart, MeleeAttack> attacks = new Dictionary<BodyPart, MeleeAttack>();
+    private readonly Dictionary<BodyPart, PlayerSpecial> specials = new Dictionary<BodyPart, PlayerSpecial>();
+    //private readonly Dictionary<BodyPart, PlayerDash> dashes = new Dictionary<BodyPart, PlayerDash>();
     private readonly Dictionary<Stat, float> statBonuses = new Dictionary<Stat, float>();
+
     private readonly List<SpriteRenderer> renderers = new List<SpriteRenderer>();
     private Health health;
     private float baseMaxHealth;
+
+    private PlayerDash dashAbility;
+
 
     // Every active body in the scene.
     public static IReadOnlyCollection<Body> All => all;
@@ -142,31 +148,105 @@ public class Body : MonoBehaviour
     //Also need to create basically identical systems to this but for the special and dash slots.
 
     // Total of every equipped limb's modifiers for a stat. Add it to the character's base value.
+    // Returns the special ability provided by the chest.
+    public PlayerSpecial GetSpecial()
+    {
+        return specials.TryGetValue(BodyPart.Chest, out PlayerSpecial special)
+            ? special
+            : null;
+    }
+
+    // Returns the dash ability provided by the specified leg.
+    public PlayerDash GetDash()
+    {
+        return dashAbility;
+    }
+
     public float GetStatBonus(Stat stat)
     {
         return statBonuses.TryGetValue(stat, out float bonus) ? bonus : 0f;
     }
 
     // Replaces the limb in the prefab's slot with a fresh instance of the prefab. Returns the new limb.
+    
     public Limb ReplaceLimb(Limb prefab)
     {
-        Transform socket = GetSocket(prefab.Slot);
+    if (prefab == null)
+    {
+        return null;
+    }
 
-        if (socket == null)
-        {
-            Debug.LogError($"Body: the {prefab.Slot} socket isn't assigned.", this);
+    if (prefab.Slot == BodyPart.LeftLeg
+        || prefab.Slot == BodyPart.RightLeg)
+    {
+         Debug.LogError("Body: use ReplaceLegs with both leg prefabs.", this);
             return null;
         }
 
-        RemoveLimb(prefab.Slot);
+    Transform socket = GetSocket(prefab.Slot);
 
-        Limb limb = Instantiate(prefab, socket);
-        AddLimb(prefab.Slot, limb);
-        ApplyStats();
-
-        onLimbsChanged.Invoke();
-        return limb;
+    if (socket == null)
+    {
+        Debug.LogError(
+            $"Body: the {prefab.Slot} socket isn't assigned.",
+            this);
+        return null;
     }
+
+    RemoveLimb(prefab.Slot);
+
+    Limb limb = Instantiate(prefab, socket);
+    AddLimb(prefab.Slot, limb);
+    ApplyStats();
+
+    onLimbsChanged.Invoke();
+    return limb;
+}
+
+
+    public Limb ReplaceLegs(Limb leftPrefab, Limb rightPrefab)
+    {
+        if (leftPrefab == null || rightPrefab == null
+            || leftPrefab.Slot != BodyPart.LeftLeg
+            || rightPrefab.Slot != BodyPart.RightLeg
+            || leftPrefab.Kind != rightPrefab.Kind)
+        {
+            Debug.LogError(
+                "Body: ReplaceLegs requires matching left and right leg prefabs.",
+                this);
+            return null;
+        }
+
+        Transform leftSocket = GetSocket(BodyPart.LeftLeg);
+        Transform rightSocket = GetSocket(BodyPart.RightLeg);
+
+        if (leftSocket == null || rightSocket == null)
+        {
+            Debug.LogError("Body: both leg sockets must be assigned.", this);
+            return null;
+        }
+
+        RemoveLimb(BodyPart.LeftLeg);
+        RemoveLimb(BodyPart.RightLeg);
+
+        Limb leftLeg = Instantiate(leftPrefab, leftSocket);
+        Limb rightLeg = Instantiate(rightPrefab, rightSocket);
+
+        AddLimb(BodyPart.LeftLeg, leftLeg);
+        AddLimb(BodyPart.RightLeg, rightLeg);
+
+        ApplyStats();
+        onLimbsChanged.Invoke();
+
+        return leftLeg;
+    }
+
+
+    private void SetLimbSlot(Limb limb, BodyPart slot)
+    {
+        limb.SetSlot(slot);
+    }
+
 
     // Turns the body toward a direction. Horizontal has priority when tied
     public void FaceDirection(Vector2 direction)
@@ -243,6 +323,19 @@ public class Body : MonoBehaviour
             attacks[slot].SweepFromLeft = slot == BodyPart.LeftArm;
         }
 
+        //Added from the origin here
+        if (slot == BodyPart.Chest && limb.SpecialPrefab != null)
+        {
+            specials[slot] = Instantiate(limb.SpecialPrefab, transform);
+            SetLayer(specials[slot].gameObject);
+        }
+
+        if (slot == BodyPart.LeftLeg && limb.DashPrefab != null)
+        {
+            dashAbility = Instantiate(limb.DashPrefab, transform);
+            SetLayer(dashAbility.gameObject);
+        }
+
         ShowFacing(limb);
     }
 
@@ -256,18 +349,41 @@ public class Body : MonoBehaviour
 
     private void RemoveLimb(BodyPart slot)
     {
-        if (limbs.TryGetValue(slot, out Limb limb) && limb != null)
+        if (limbs.TryGetValue(slot, out Limb limb))
         {
-            Destroy(limb.gameObject);
+            if (limb != null)
+            {
+                Destroy(limb.gameObject);
+            }
+
+            limbs.Remove(slot);
         }
 
-        if (attacks.TryGetValue(slot, out MeleeAttack attack) && attack != null)
+        if (attacks.TryGetValue(slot, out MeleeAttack attack))
         {
-            Destroy(attack.gameObject);
+            if (attack != null)
+            {
+                Destroy(attack.gameObject);
+            }
+
+            attacks.Remove(slot);
         }
 
-        limbs.Remove(slot);
-        attacks.Remove(slot);
+        if (specials.TryGetValue(slot, out PlayerSpecial special))
+        {
+            if (special != null)
+            {
+                Destroy(special.gameObject);
+            }
+
+            specials.Remove(slot);
+        }
+
+        if (slot == BodyPart.LeftLeg && dashAbility != null)
+        {
+            Destroy(dashAbility.gameObject);
+            dashAbility = null;
+        }
     }
 
     private void ApplyStats()

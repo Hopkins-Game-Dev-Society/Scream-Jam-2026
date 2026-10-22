@@ -1,7 +1,11 @@
 using UnityEngine;
 
-public class PlayerDash : MonoBehaviour
+public abstract class PlayerDash : MonoBehaviour
 {
+    public abstract float CooldownDuration { get; }
+
+    public abstract void Activate(Vector2 moveDirection);
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

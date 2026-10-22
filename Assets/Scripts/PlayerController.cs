@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 
@@ -44,13 +45,37 @@ public class PlayerController : MonoBehaviour
         body.OnLimbsChanged.RemoveListener(ApplyLimbStats);
     }
 
+    private void HandleSpecialInput()
+    {
+        if (Keyboard.current == null
+            || !Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            return;
+        }
+
+        if (IsDead)
+        {
+            return;
+        }
+
+        PlayerSpecial special = body.GetSpecial();
+
+        if (special != null)
+        {
+            special.TryActivate(movement.AimDirection);
+        }
+    }
+
     private void Update()
     {
         if (!IsDead)
         {
             body.FaceDirection(movement.AimDirection);
+            HandleSpecialInput();
         }
     }
+
+
 
 
     public bool EquipLimb(LimbKind kind, BodyPart slot)
@@ -63,13 +88,64 @@ public class PlayerController : MonoBehaviour
         Limb prefab = FindLimbPrefab(kind, slot);
         return prefab != null && body.ReplaceLimb(prefab) != null;
     }
- 
+
+
     public bool SwapLimbWith(Body corpse, BodyPart theirSlot, BodyPart mySlot)
     {
+        if (IsDead || corpse == null || !theirSlot.Fits(mySlot))
+        {
+            return false;
+        }
+
+        // Keep the rest of the existing swap logic below.
+
+        bool theirSlotIsLeg =
+            theirSlot == BodyPart.LeftLeg
+            || theirSlot == BodyPart.RightLeg;
+
+        bool mySlotIsLeg =
+            mySlot == BodyPart.LeftLeg
+            || mySlot == BodyPart.RightLeg;
+
+        // Legs are exchanged as a complete pair.
+        if (theirSlotIsLeg && mySlotIsLeg)
+        {
+            Limb myLeftLeg = body.GetLimb(BodyPart.LeftLeg);
+            Limb theirLeftLeg = corpse.GetLimb(BodyPart.LeftLeg);
+
+            if (myLeftLeg == null || theirLeftLeg == null
+                || myLeftLeg.Kind == theirLeftLeg.Kind)
+            {
+                return false;
+            }
+
+            Limb myNewLeft = FindLimbPrefab(
+                theirLeftLeg.Kind, BodyPart.LeftLeg);
+            Limb myNewRight = FindLimbPrefab(
+                theirLeftLeg.Kind, BodyPart.RightLeg);
+
+            Limb corpseNewLeft = FindLimbPrefab(
+                myLeftLeg.Kind, BodyPart.LeftLeg);
+            Limb corpseNewRight = FindLimbPrefab(
+                myLeftLeg.Kind, BodyPart.RightLeg);
+
+            if (myNewLeft == null || myNewRight == null
+                || corpseNewLeft == null || corpseNewRight == null)
+            {
+                return false;
+            }
+
+            body.ReplaceLegs(myNewLeft, myNewRight);
+            corpse.ReplaceLegs(corpseNewLeft, corpseNewRight);
+
+            return true;
+        }
+
+        // All other body parts retain their original individual-swap behavior.
         Limb mine = body.GetLimb(mySlot);
         Limb theirs = corpse.GetLimb(theirSlot);
 
-        if (IsDead || mine == null || theirs == null || !theirSlot.Fits(mySlot) || mine.Kind == theirs.Kind)
+        if (mine == null || theirs == null || mine.Kind == theirs.Kind)
         {
             return false;
         }
@@ -84,8 +160,10 @@ public class PlayerController : MonoBehaviour
 
         body.ReplaceLimb(newMine);
         corpse.ReplaceLimb(newTheirs);
+
         return true;
     }
+
 
     private Limb FindLimbPrefab(LimbKind kind, BodyPart slot)
     {

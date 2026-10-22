@@ -1,18 +1,48 @@
 using UnityEngine;
 
-public class PlayerSpecial : MonoBehaviour
+public abstract class PlayerSpecial : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public abstract float CooldownDuration { get; }
+
+    private float cooldownStartedAt;
+    private bool coolingDown;
+
+    public bool IsReady =>
+        !coolingDown || CooldownDuration <= 0f
+        || Time.time >= cooldownStartedAt + CooldownDuration;
+
+    // 0 = just activated; 1 = ready to use.
+    public float CooldownFill
     {
-        
+        get
+        {
+            if (IsReady)
+            {
+                return 1f;
+            }
+
+            float elapsed = Time.time - cooldownStartedAt;
+            return Mathf.Clamp01(elapsed / CooldownDuration);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TryActivate(Vector2 aimDirection)
     {
-        
+        if (!IsReady)
+        {
+            return;
+        }
+
+        Activate(aimDirection);
+
+        if (CooldownDuration > 0f)
+        {
+            cooldownStartedAt = Time.time;
+            coolingDown = true;
+        }
     }
+
+    public abstract void Activate(Vector2 aimDirection);
 }
 
 //Will need some sort of meter to show how ready the special actually is as well.

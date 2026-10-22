@@ -20,6 +20,7 @@ public class LootSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private LootMenu Menu => menu != null ? menu : menu = GetComponentInParent<LootMenu>(true);
 
     // Places the limb's front sprite around this joint. A null visual leaves the slot empty.
+    /*
     public void Show(LimbVisual visual, Vector2 jointPosition, float angle, float pixelsPerUnit)
     {
         part.enabled = visual != null && visual.Front != null;
@@ -40,6 +41,44 @@ public class LootSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         part.rectTransform.anchoredPosition = visual.SpriteOffset * pixelsPerUnit;
         part.rectTransform.sizeDelta = (Vector2)visual.Front.bounds.size * pixelsPerUnit;
         part.color = Color.white;
+    } */
+
+    public void Show(
+    LimbVisual visual,
+    Vector2 jointPosition,
+    float angle,
+    float pixelsPerUnit)
+    {
+        // Clear any previous visual state.
+        part.enabled = false;
+        part.sprite = null;
+        part.color = Color.white;
+
+        Mirrored = false;
+
+        if (visual == null || visual.Front == null)
+        {
+            return;
+        }
+
+        Mirrored = visual.Mirrored;
+
+        var joint = (RectTransform)transform;
+        joint.anchoredPosition = jointPosition;
+        joint.localRotation = Quaternion.Euler(0f, 0f, angle);
+        joint.localScale = new Vector3(
+            Mirrored ? -1f : 1f,
+            1f,
+            1f
+        );
+
+        part.sprite = visual.Front;
+        part.rectTransform.anchoredPosition =
+            visual.SpriteOffset * pixelsPerUnit;
+        part.rectTransform.sizeDelta =
+            (Vector2)visual.Front.bounds.size * pixelsPerUnit;
+
+        part.enabled = true;
     }
 
     public void SetTint(Color color)
