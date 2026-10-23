@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b0d6f281da343194b8f6cac793c2eac5
+guid: 84500cbc5f4c91144bbba14d2b0ff879
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5084485325905624707
-    second: lion_leg_front_0
+      213: -6325275295073189978
+    second: tin_arm_back_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lion_leg_front_0
+      name: tin_arm_back_0
       rect:
         serializedVersion: 2
-        x: 34
-        y: 35
-        width: 264
-        height: 383
+        x: 117
+        y: 125
+        width: 560
+        height: 450
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 38e7a441778bf8640800000000000000
-      internalID: 5084485325905624707
+      spriteID: 6afbb92c1ab1838a0800000000000000
+      internalID: -6325275295073189978
       vertices: []
       indices: 
       edges: []
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lion_leg_front_0: 5084485325905624707
+      tin_arm_back_0: -6325275295073189978
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

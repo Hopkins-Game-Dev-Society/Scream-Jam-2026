@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2a51d57357a3fd745acc1e4fb33e4aea
+guid: a079cdd908357664ab87c11641d8bbe0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3296239314141393154
-    second: lion_arm_front_smear_0
+      213: -1384122098893848243
+    second: SC_arm_side_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lion_arm_front_smear_0
+      name: SC_arm_side_0
       rect:
         serializedVersion: 2
-        x: 33
-        y: 61
-        width: 904
-        height: 793
+        x: 222
+        y: 43
+        width: 287
+        height: 527
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: efecce9dec76142d0800000000000000
-      internalID: -3296239314141393154
+      spriteID: d410aa1d84c9acce0800000000000000
+      internalID: -1384122098893848243
       vertices: []
       indices: 
       edges: []
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lion_arm_front_smear_0: -3296239314141393154
+      SC_arm_side_0: -1384122098893848243
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 95ab11039b8ba184ea61032464e20bbb
+guid: 0003fc3f801b1ef45920a063b39518c7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1345641856392772996
-    second: tin_head_front_0
+      213: 302931164664938286
+    second: lion_torso_side_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tin_head_front_0
+      name: lion_torso_side_0
       rect:
         serializedVersion: 2
-        x: 284
-        y: 176
-        width: 387
-        height: 444
+        x: 19
+        y: 0
+        width: 430
+        height: 552
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 48d303d832eaca210800000000000000
-      internalID: 1345641856392772996
+      spriteID: e2fbf3d0a4a343400800000000000000
+      internalID: 302931164664938286
       vertices: []
       indices: 
       edges: []
@@ -163,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      tin_head_front_0: 1345641856392772996
+      lion_torso_side_0: 302931164664938286
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
