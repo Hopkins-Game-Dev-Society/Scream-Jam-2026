@@ -21,9 +21,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -7390094992991459911, guid: 4f49939ea82180a4aa70a521cf1c7a25, type: 3}
     - target: {fileID: 1484934670647010072, guid: 5583e914651e441e3bc063034d82e2d0, type: 3}
+      propertyPath: back
+      value: 
+      objectReference: {fileID: 8673323957646126095, guid: f1bbee129af41694aa81cfae4ea74c78, type: 3}
+    - target: {fileID: 1484934670647010072, guid: 5583e914651e441e3bc063034d82e2d0, type: 3}
+      propertyPath: side
+      value: 
+      objectReference: {fileID: -8959852301728588971, guid: 0531a357d6e100448a1b91e01dfc8e9b, type: 3}
+    - target: {fileID: 1484934670647010072, guid: 5583e914651e441e3bc063034d82e2d0, type: 3}
+      propertyPath: front
+      value: 
+      objectReference: {fileID: 5084485325905624707, guid: fa3d2c772dcdf5b45bac84c58882c07d, type: 3}
+    - target: {fileID: 1484934670647010072, guid: 5583e914651e441e3bc063034d82e2d0, type: 3}
       propertyPath: mirrored
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1941016255508525718, guid: 5583e914651e441e3bc063034d82e2d0, type: 3}
+      propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1941016255508525718, guid: 5583e914651e441e3bc063034d82e2d0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 5084485325905624707, guid: fa3d2c772dcdf5b45bac84c58882c07d, type: 3}
     - target: {fileID: 8770755035278470100, guid: 5583e914651e441e3bc063034d82e2d0, type: 3}
       propertyPath: m_LocalScale.x
       value: -1

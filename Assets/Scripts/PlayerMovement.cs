@@ -24,6 +24,8 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 AimDirection => aimDirection;
     public float MoveSpeedBonus { get; set; }
 
+    public float TemporaryMoveSpeedBonus { get; set; }
+
     public bool IsDashing => isDashing;
 
 
@@ -49,7 +51,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rb.linearVelocity =
-            moveInput * Mathf.Max(moveSpeed + MoveSpeedBonus, 0f);
+            moveInput * Mathf.Max(moveSpeed + MoveSpeedBonus
+            + TemporaryMoveSpeedBonus,0f);
     }
 
     public void StartDash(Vector2 direction, float speed)

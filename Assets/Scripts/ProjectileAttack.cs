@@ -11,6 +11,8 @@ public class ProjectileAttack : LimbAttack
     [Header("Attack")]
     [SerializeField] private float cooldown = 0.5f;
 
+    public float AttackSpeedMultiplier { get; set; } = 1f;
+
     private float nextAttackTime;
 
 	private Health owner;
@@ -49,7 +51,10 @@ public class ProjectileAttack : LimbAttack
 			direction.normalized,
 			projectileSpeed,
 			damageBonus);
-		nextAttackTime = Time.time + cooldown;
+		//nextAttackTime = Time.time + cooldown;
+
+        float speedMultiplier = Mathf.Max(AttackSpeedMultiplier, 0.01f);
+        nextAttackTime = Time.time + cooldown / speedMultiplier;
 
         return true;
     }

@@ -111,6 +111,8 @@ MonoBehaviour:
   slot: 2
   statModifiers: []
   attackPrefab: {fileID: 0}
+  specialPrefab: {fileID: 7385480676070627057, guid: 85a1daf48b4deb1419f3e7efe7919f91, type: 3}
+  dashPrefab: {fileID: 0}
 --- !u!114 &7516176445665962762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,9 +126,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LimbVisual
   spriteRenderer: {fileID: 9189264338121830391}
-  front: {fileID: 21300000, guid: a0c576a5433334352b2e592bdf0d88f1, type: 3}
-  back: {fileID: 21300000, guid: 3b94735ce00384f39826b7a30b2f289d, type: 3}
-  side: {fileID: 21300000, guid: ed86eb3874b7a46cd9eeb911c3af1f92, type: 3}
+  front: {fileID: 9103126087220089493, guid: c4ee1b50fffe3a7448be7b2acc2c5e6d, type: 3}
+  back: {fileID: -774668945868434938, guid: 3499cbf9e671b0d4fb3345a7bb2cee26, type: 3}
+  side: {fileID: 302931164664938286, guid: 0003fc3f801b1ef45920a063b39518c7, type: 3}
   mirrored: 0
 --- !u!1 &5923288906278466625
 GameObject:
@@ -209,7 +211,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: a0c576a5433334352b2e592bdf0d88f1, type: 3}
+  m_Sprite: {fileID: 9103126087220089493, guid: c4ee1b50fffe3a7448be7b2acc2c5e6d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

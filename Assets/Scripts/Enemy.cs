@@ -8,6 +8,15 @@ public class Enemy : MonoBehaviour
     private static readonly BodyPart[] Arms = { BodyPart.RightArm, BodyPart.LeftArm };
     private const float ArriveDistance = 0.5f;
 
+    //For decoy implementation
+    private Health playerHealth;
+
+    // Keep the actual player separate from the currently selected target.
+    private Rigidbody2D realPlayer;
+    private Health realPlayerHealth;
+
+    private readonly List<Hurtbox> playerHurtboxes = new List<Hurtbox>();
+
     private enum State
     {
         Patrol,
@@ -43,8 +52,8 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private Body body;
     private Health health;
-    private Health playerHealth;
-    private readonly List<Hurtbox> playerHurtboxes = new List<Hurtbox>();
+    //private Health playerHealth;
+    //private readonly List<Hurtbox> playerHurtboxes = new List<Hurtbox>();
     private readonly List<Collider2D> hurtboxColliders = new List<Collider2D>();
 
     private State state = State.Patrol;
@@ -80,6 +89,37 @@ public class Enemy : MonoBehaviour
     {
         if (player == null)
         {
+            PlayerController found =
+                FindAnyObjectByType<PlayerController>();
+
+            if (found != null)
+            {
+                player = found.GetComponent<Rigidbody2D>();
+            }
+        }
+
+        realPlayer = player;
+
+        if (realPlayer != null)
+        {
+            realPlayerHealth = realPlayer.GetComponent<Health>();
+        }
+
+        playerHealth = realPlayerHealth;
+
+        patrolPoints[0] = PatrolPoint(0);
+        patrolPoints[1] = PatrolPoint(1);
+        patrolPointsSaved = true;
+
+        LookAt(PatrolPoint(0) - (Vector2)transform.position);
+    }
+
+
+    /*
+    void Start()
+    {
+        if (player == null)
+        {
             PlayerController found = FindAnyObjectByType<PlayerController>();
 
             if (found != null)
@@ -93,7 +133,7 @@ public class Enemy : MonoBehaviour
         patrolPoints[1] = PatrolPoint(1);
         patrolPointsSaved = true;
         LookAt(PatrolPoint(0) - (Vector2)transform.position);
-    }
+    } */
 
     // Update is called once per frame
     void Update()
@@ -109,6 +149,8 @@ public class Enemy : MonoBehaviour
             }
             return;
         }
+
+        SelectTarget();
 
         if (state == State.Patrol && CanSeePlayer())
         {
@@ -315,6 +357,57 @@ public class Enemy : MonoBehaviour
 
         return inReach;
     } */
+
+        
+    private void SelectTarget()
+    {
+        // Default to the real player.
+        player = realPlayer;
+        playerHealth = realPlayerHealth;
+
+        if (realPlayer == null || sightCone == null)
+        {
+            return;
+        }
+
+        DecoyTarget bestDecoy = null;
+        float nearestDistance = float.MaxValue;
+
+        foreach (DecoyTarget decoy in DecoyTarget.ActiveDecoys)
+        {
+            if (decoy == null
+                || decoy.Health == null
+                || decoy.Health.IsDead
+                || decoy.Rigidbody == null)
+            {
+                continue;
+            }
+
+            Vector2 decoyPosition = decoy.Rigidbody.position;
+
+            // Only select decoys that are visible and within the leash.
+            if (DistanceFromRoute(decoyPosition) > leashDistance
+                || !sightCone.CanSee(decoyPosition))
+            {
+                continue;
+            }
+
+            float distance = ((Vector2)transform.position - decoyPosition).sqrMagnitude;
+
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                bestDecoy = decoy;
+            }
+        }
+
+        if (bestDecoy != null)
+        {
+            player = bestDecoy.Rigidbody;
+            playerHealth = bestDecoy.Health;
+        }
+    }
+
 
 
     // Uses projectile arms while chasing and melee arms when the player

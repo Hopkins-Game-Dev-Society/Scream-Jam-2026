@@ -126,9 +126,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LimbVisual
   spriteRenderer: {fileID: 1941016255508525718}
-  front: {fileID: 21300000, guid: b125593f72dc24881bdcb9d1beb30c0a, type: 3}
-  back: {fileID: 21300000, guid: cf42f4ec4ffa349938707ec58b40fa03, type: 3}
-  side: {fileID: 21300000, guid: fb00a7c7677a84e3b879fdc9eb1b182b, type: 3}
+  front: {fileID: 6096098964624832794, guid: 3dda8ee1486656a4dbd6691fcfba5c8f, type: 3}
+  back: {fileID: 4890906141210683650, guid: 0d1cb352260826b4ebdc4c16d26feab6, type: 3}
+  side: {fileID: 5726162067018721350, guid: 8a825d0cf23bc514f89bea672c6d4588, type: 3}
   mirrored: 0
 --- !u!1 &5395319453774031035
 GameObject:
@@ -211,9 +211,9 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: b125593f72dc24881bdcb9d1beb30c0a, type: 3}
+  m_Sprite: {fileID: 6096098964624832794, guid: 3dda8ee1486656a4dbd6691fcfba5c8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}

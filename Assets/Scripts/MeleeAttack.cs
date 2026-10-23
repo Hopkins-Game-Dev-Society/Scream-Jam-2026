@@ -65,6 +65,7 @@ public class MeleeAttack : LimbAttack
 
     public override bool IsAttacking => isAttacking;
     public bool CanAttack => !IsAttacking && Time.time >= nextAttackTime && (owner == null || !owner.IsDead);
+    public float AttackSpeedMultiplier { get; set; } = 1f;
     public UnityEvent OnAttackStarted => onAttackStarted;
     // Sweeps start on the left of the aim and finish on the right. Set by Body for left arms.
     public bool SweepFromLeft { get; set; }
@@ -129,7 +130,9 @@ public class MeleeAttack : LimbAttack
         SetActive(false);
 
         isAttacking = false;
-        nextAttackTime = Time.time + cooldown;
+        //nextAttackTime = Time.time + cooldown;
+        float speedMultiplier = Mathf.Max(AttackSpeedMultiplier, 0.01f);
+        nextAttackTime = Time.time + cooldown / speedMultiplier;
     }
 
     private void FixedUpdate()

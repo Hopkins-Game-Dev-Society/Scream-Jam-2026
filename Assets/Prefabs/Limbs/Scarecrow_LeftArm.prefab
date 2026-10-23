@@ -60,10 +60,54 @@ PrefabInstance:
       propertyPath: attackPrefab
       value: 
       objectReference: {fileID: -1844899061114675983, guid: 0c24594c176bc784799b0490dd13d665, type: 3}
+    - target: {fileID: 3401196351297685995, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401196351297685995, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401196351297685995, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.92387956
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401196351297685995, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401196351297685995, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.38268343
+      objectReference: {fileID: 0}
+    - target: {fileID: 3401196351297685995, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3623675255919101315, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3623675255919101315, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8083581415259563909, guid: 3a10510e18e5d6a4ab85e9332c36bb60, type: 3}
     - target: {fileID: 5217130993886808328, guid: d39446db42e2f4258a9749ac35671017, type: 3}
       propertyPath: m_Name
       value: Scarecrow_LeftArm
       objectReference: {fileID: 0}
+    - target: {fileID: 6637553036357469366, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: back
+      value: 
+      objectReference: {fileID: -7596668723044280627, guid: f795ca6dd32fdba47aa8bd19e2febf66, type: 3}
+    - target: {fileID: 6637553036357469366, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: side
+      value: 
+      objectReference: {fileID: -1384122098893848243, guid: a079cdd908357664ab87c11641d8bbe0, type: 3}
+    - target: {fileID: 6637553036357469366, guid: d39446db42e2f4258a9749ac35671017, type: 3}
+      propertyPath: front
+      value: 
+      objectReference: {fileID: 8083581415259563909, guid: 3a10510e18e5d6a4ab85e9332c36bb60, type: 3}
     - target: {fileID: 6637553036357469366, guid: d39446db42e2f4258a9749ac35671017, type: 3}
       propertyPath: mirrored
       value: 1

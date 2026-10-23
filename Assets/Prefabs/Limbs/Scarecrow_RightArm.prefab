@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3829643047000487333}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.7224998, y: 0.25, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
+  m_LocalPosition: {x: 2.67, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2061487099551895275}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &3623675255919101315
 SpriteRenderer:
   serializedVersion: 3
@@ -81,9 +81,9 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 25c115f0aaa114fee9a97937465be2ef, type: 3}
+  m_Sprite: {fileID: 8083581415259563909, guid: 3a10510e18e5d6a4ab85e9332c36bb60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LimbVisual
   spriteRenderer: {fileID: 3623675255919101315}
-  front: {fileID: 21300000, guid: 25c115f0aaa114fee9a97937465be2ef, type: 3}
-  back: {fileID: 21300000, guid: 39ce4cf3d90c3499b9ed2e38eafd9352, type: 3}
-  side: {fileID: 21300000, guid: 20f78780a23184f8e8c00a358ddb3251, type: 3}
+  front: {fileID: 8083581415259563909, guid: 3a10510e18e5d6a4ab85e9332c36bb60, type: 3}
+  back: {fileID: -7596668723044280627, guid: f795ca6dd32fdba47aa8bd19e2febf66, type: 3}
+  side: {fileID: -1384122098893848243, guid: a079cdd908357664ab87c11641d8bbe0, type: 3}
   mirrored: 0

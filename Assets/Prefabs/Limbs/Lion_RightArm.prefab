@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3829643047000487333}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.7224998, y: 0.25, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.42261827, w: 0.9063079}
+  m_LocalPosition: {x: 3.7, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2061487099551895275}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 50}
 --- !u!212 &3623675255919101315
 SpriteRenderer:
   serializedVersion: 3
@@ -81,9 +81,9 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 547d8b67d52fb45828f5d15a8a4802b1, type: 3}
+  m_Sprite: {fileID: 5171251647962783796, guid: 38b2be25dc10b684e8ad85349ba79368, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -250,6 +250,8 @@ MonoBehaviour:
   slot: 4
   statModifiers: []
   attackPrefab: {fileID: 2957765602326523687, guid: 41a34a459bd5249ce8f16162cfb170a1, type: 3}
+  specialPrefab: {fileID: 0}
+  dashPrefab: {fileID: 0}
 --- !u!114 &6637553036357469366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LimbVisual
   spriteRenderer: {fileID: 3623675255919101315}
-  front: {fileID: 21300000, guid: 547d8b67d52fb45828f5d15a8a4802b1, type: 3}
-  back: {fileID: 21300000, guid: 7796f6a71e6f84ead8b54102e28356e1, type: 3}
-  side: {fileID: 21300000, guid: 09a677828d4404a3ea6d798301ebb533, type: 3}
+  front: {fileID: 5171251647962783796, guid: 38b2be25dc10b684e8ad85349ba79368, type: 3}
+  back: {fileID: 3317689600329359423, guid: 0b0534d9cce5cf344a6908e6b7b5c80c, type: 3}
+  side: {fileID: -548725541255225559, guid: 1a750f7ff90c29e4997e18c0ff12f661, type: 3}
   mirrored: 0
