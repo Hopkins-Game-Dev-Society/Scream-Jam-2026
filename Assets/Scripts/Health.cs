@@ -112,6 +112,18 @@ public class Health : MonoBehaviour
         onHealthChanged.Invoke(currentHealth, maxHealth);
     }
 
+    // Sets current health directly, without the hurt or heal effects. Used to carry health into a new scene.
+    public void SetCurrentHealth(float amount)
+    {
+        if (amount <= 0f || IsDead)
+        {
+            return;
+        }
+
+        currentHealth = Mathf.Min(amount, maxHealth);
+        onHealthChanged.Invoke(currentHealth, maxHealth);
+    }
+
     // Gaining max health heals by the same amount. Losing it only lowers
     // current health if it's above the new max.
     public void SetMaxHealth(float newMaxHealth)

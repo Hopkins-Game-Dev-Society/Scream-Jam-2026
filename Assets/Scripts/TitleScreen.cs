@@ -33,6 +33,7 @@ public class TitleScreen : MonoBehaviour
         }
 
         leaving = true;
+        PlayerCarryOver.Clear(); // a new game starts fresh, not with the last run's health and limbs
         StartCoroutine(LoadGame());
     }
 

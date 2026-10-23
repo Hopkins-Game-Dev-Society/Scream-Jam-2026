@@ -148,6 +148,19 @@ public class PlayerController : MonoBehaviour
         return prefab != null && body.ReplaceLimb(prefab) != null;
     }
 
+    // Legs always come as a matching pair, so they're equipped together.
+    public bool EquipLegs(LimbKind kind)
+    {
+        if (IsDead)
+        {
+            return false;
+        }
+
+        Limb left = FindLimbPrefab(kind, BodyPart.LeftLeg);
+        Limb right = FindLimbPrefab(kind, BodyPart.RightLeg);
+        return left != null && right != null && body.ReplaceLegs(left, right) != null;
+    }
+
 
     public bool SwapLimbWith(Body corpse, BodyPart theirSlot, BodyPart mySlot)
     {
