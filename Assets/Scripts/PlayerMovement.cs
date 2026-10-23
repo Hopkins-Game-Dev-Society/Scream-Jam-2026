@@ -77,19 +77,49 @@ public class PlayerMovement : MonoBehaviour
             AimAt(lookScreenPos);
     }
 
+    /*
     public void Look(InputAction.CallbackContext context)
     {
         lookScreenPos = context.ReadValue<Vector2>();
         hasLookInput = true;
         AimAt(lookScreenPos);
+    } */
+
+    private void Look(UnityEngine.InputSystem.InputAction.CallbackContext context)
+{
+    // Ignore cancellation callbacks when input is being disabled.
+    if (context.phase !=
+            UnityEngine.InputSystem.InputActionPhase.Performed)
+        {
+            return;
+        }
+
+        if (!isActiveAndEnabled)
+        {
+            return;
+        }
+
+        AimAt(context.ReadValue<Vector2>());
     }
 
     private void AimAt(Vector2 mouseScreenPos)
     {
+
+        if (Aim == null)
+        {
+            return;
+        }
+
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera == null)
+        {
+            return;
+        }
         // Aiming logic
         Vector3 mousePos3 = mouseScreenPos; //convert to vector3 pos to do world pos calc correctly
         mousePos3.z = -Camera.main.transform.position.z; //adds camera offset
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos3); //converts mouse screen pos to world pos
+        Vector3 worldPos = mainCamera.ScreenToWorldPoint(mousePos3); //converts mouse screen pos to world pos
         Vector3 targetWorldPos = worldPos - transform.position;
         if (((Vector2)targetWorldPos).sqrMagnitude > 0.0001f)
             aimDirection = ((Vector2)targetWorldPos).normalized;
