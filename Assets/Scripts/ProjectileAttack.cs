@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ProjectileAttack : LimbAttack
 {
@@ -10,6 +11,9 @@ public class ProjectileAttack : LimbAttack
 
     [Header("Attack")]
     [SerializeField] private float cooldown = 0.5f;
+
+    [Tooltip("Fired each time a projectile is launched. Hook sounds here.")]
+    [SerializeField] private UnityEvent onFired = new UnityEvent();
 
     public float AttackSpeedMultiplier { get; set; } = 1f;
 
@@ -51,6 +55,7 @@ public class ProjectileAttack : LimbAttack
 			direction.normalized,
 			projectileSpeed,
 			damageBonus);
+		onFired.Invoke();
 		//nextAttackTime = Time.time + cooldown;
 
         float speedMultiplier = Mathf.Max(AttackSpeedMultiplier, 0.01f);

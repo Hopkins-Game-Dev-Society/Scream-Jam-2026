@@ -44,6 +44,9 @@ public class MeleeAttack : LimbAttack
     [Tooltip("Fired when the attack starts. Hook animations or sounds here.")]
     [SerializeField] private UnityEvent onAttackStarted = new UnityEvent();
 
+    [Tooltip("Fired each time the swing damages something. Hook hit sounds here.")]
+    [SerializeField] private UnityEvent onHit = new UnityEvent();
+
     private const float MinSweepStep = 1f;
 
     private Health owner;
@@ -77,6 +80,11 @@ public class MeleeAttack : LimbAttack
         if (hitbox != null && !hitbox.TryGetComponent(out hitArea))
         {
             Debug.LogError("MeleeAttack: the hitbox needs a PolygonCollider2D to trace the swing with.", this);
+        }
+
+        if (hitbox != null)
+        {
+            hitbox.TargetHit += HandleTargetHit;
         }
 
         if (striker != null)
@@ -254,5 +262,18 @@ public class MeleeAttack : LimbAttack
         {
             SetActive(false);
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (hitbox != null)
+        {
+            hitbox.TargetHit -= HandleTargetHit;
+        }
+    }
+
+    private void HandleTargetHit(Health target)
+    {
+        onHit.Invoke();
     }
 }

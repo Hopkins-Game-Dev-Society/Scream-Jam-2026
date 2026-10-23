@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class PlayerSpecial : MonoBehaviour
 {
+    [Tooltip("Fired when the special is used. Hook sounds here.")]
+    [SerializeField] private UnityEvent onActivated = new UnityEvent();
+
     public abstract float CooldownDuration { get; }
 
     private float cooldownStartedAt;
@@ -34,6 +38,7 @@ public abstract class PlayerSpecial : MonoBehaviour
         }
 
         Activate(aimDirection);
+        onActivated.Invoke();
 
         if (CooldownDuration > 0f)
         {

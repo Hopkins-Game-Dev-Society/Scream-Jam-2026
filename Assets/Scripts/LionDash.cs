@@ -72,6 +72,7 @@ public class LionDash : PlayerDash
 		dashRoutine = StartCoroutine(
 			DashRoutine(moveDirection.normalized)
 		);
+		DashStarted();
 	}
 
 	private IEnumerator DashRoutine(Vector2 direction)

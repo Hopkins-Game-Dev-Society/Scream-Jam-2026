@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -13,6 +14,16 @@ public class LootMenu : MonoBehaviour
     [SerializeField] private LootFigure corpseFigure;
     [SerializeField] private UnityEngine.UI.Image dragGhost;
     [SerializeField] private UnityEngine.UI.Button closeButton;
+
+    [Header("Events")]
+    [Tooltip("Fired when the menu opens. Hook sounds here.")]
+    [SerializeField] private UnityEvent onOpened = new UnityEvent();
+    [Tooltip("Fired when the menu closes.")]
+    [SerializeField] private UnityEvent onClosed = new UnityEvent();
+    [Tooltip("Fired when a limb is picked up off the corpse.")]
+    [SerializeField] private UnityEvent onLimbPickedUp = new UnityEvent();
+    [Tooltip("Fired when a limb is swapped onto the player.")]
+    [SerializeField] private UnityEvent onLimbSwapped = new UnityEvent();
 
     private PlayerController player;
     private Body corpse;
@@ -72,6 +83,7 @@ public class LootMenu : MonoBehaviour
         ShowPrompt(null);
         window.SetActive(true);
         Refresh();
+        onOpened.Invoke();
     }
 
     public void Close()
@@ -93,6 +105,7 @@ public class LootMenu : MonoBehaviour
         player = null;
         corpse = null;
         cancel = null;
+        onClosed.Invoke();
     }
 
     public void BeginDrag(LootSlot slot)
@@ -108,6 +121,7 @@ public class LootMenu : MonoBehaviour
         dragGhost.rectTransform.localScale = new Vector3(slot.Mirrored ? -1f : 1f, 1f, 1f);
         dragGhost.gameObject.SetActive(true);
         playerFigure.Highlight(slot.BodyPart);
+        onLimbPickedUp.Invoke();
     }
 
     public void Drag(PointerEventData eventData)
@@ -139,6 +153,7 @@ public class LootMenu : MonoBehaviour
         if (player.SwapLimbWith(corpse, dragging.BodyPart, target.BodyPart))
         {
             Refresh();
+            onLimbSwapped.Invoke();
         }
     }
 
