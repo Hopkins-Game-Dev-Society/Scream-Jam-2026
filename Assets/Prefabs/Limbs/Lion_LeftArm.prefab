@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 5171251647962783796, guid: 38b2be25dc10b684e8ad85349ba79368, type: 3}
+    - target: {fileID: 4186443244471017909, guid: 67999e5f020a946aaaee2785354f509b, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e0ec107e0d47e27459e486ae09f99cdc, type: 2}
     - target: {fileID: 5217130993886808328, guid: 67999e5f020a946aaaee2785354f509b, type: 3}
       propertyPath: m_Name
       value: Lion_LeftArm

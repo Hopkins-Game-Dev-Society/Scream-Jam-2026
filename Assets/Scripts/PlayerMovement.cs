@@ -35,13 +35,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();    
     }
 
-    // Update is called once per frame
-    /*
-    void FixedUpdate()
-    {
-        rb.linearVelocity = moveInput * Mathf.Max(moveSpeed + MoveSpeedBonus, 0f);
-    } */
-
     private void FixedUpdate()
     {
         if (isDashing)
@@ -104,7 +97,4 @@ public class PlayerMovement : MonoBehaviour
         Aim.rotation = Quaternion.LookRotation(Vector3.forward, rotatedWorldPos);
     }
 
-    //public Vector2 MoveInput => moveInput;
-    //public Vector2 AimDirection => aimDirection;
-    //public float MoveSpeedBonus { get; set; } // from limb stats, set by PlayerController
 }

@@ -12,8 +12,8 @@ public class LootFigure : MonoBehaviour
     {
         { BodyPart.Head, (new Vector2(0.19f, 2.6f), 0f) },
         { BodyPart.Chest, (Vector2.zero, 0f) },
-        { BodyPart.LeftArm, (new Vector2(-2f, 0.6f), -10f) },
-        { BodyPart.RightArm, (new Vector2(2f, 0.6f), 10f) },
+        { BodyPart.LeftArm, (new Vector2(-2f, 0.3f), -10f) },
+        { BodyPart.RightArm, (new Vector2(2f, 0.3f), 10f) },
         { BodyPart.LeftLeg, (new Vector2(-1.3f, -2.6f), -15f) },
         { BodyPart.RightLeg, (new Vector2(1.3f, -2.6f), 15f) },
     };

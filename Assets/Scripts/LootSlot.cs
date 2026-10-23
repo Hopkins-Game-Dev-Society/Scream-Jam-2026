@@ -43,6 +43,7 @@ public class LootSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         part.color = Color.white;
     } */
 
+    /*
     public void Show(
     LimbVisual visual,
     Vector2 jointPosition,
@@ -79,7 +80,66 @@ public class LootSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             (Vector2)visual.Front.bounds.size * pixelsPerUnit;
 
         part.enabled = true;
+    }*/
+
+
+public void Show(
+    LimbVisual visual,
+    Vector2 jointPosition,
+    float angle,
+    float pixelsPerUnit)
+{
+    part.enabled = false;
+    part.sprite = null;
+    part.color = Color.white;
+    Mirrored = false;
+
+    if (visual == null || visual.Front == null)
+    {
+        return;
     }
+
+    bool flipForLootMenu =
+        bodyPart == BodyPart.LeftArm ||
+        bodyPart == BodyPart.RightArm ||
+        bodyPart == BodyPart.LeftLeg ||
+        bodyPart == BodyPart.RightLeg;
+
+    Mirrored = visual.Mirrored ^ flipForLootMenu;
+
+    RectTransform joint = (RectTransform)transform;
+    joint.anchoredPosition = jointPosition;
+    joint.localRotation = Quaternion.Euler(0f, 0f, angle);
+
+    // Keep the joint itself unflipped so its position stays correct.
+    joint.localScale = Vector3.one;
+
+    part.sprite = visual.Front;
+
+    RectTransform partTransform = part.rectTransform;
+    //partTransform.anchoredPosition =
+        //visual.SpriteOffset * pixelsPerUnit;
+    Vector2 spriteOffset = visual.SpriteOffset;
+
+    if (bodyPart == BodyPart.LeftArm)
+    {
+        spriteOffset.x = -spriteOffset.x;
+    }
+
+    partTransform.anchoredPosition = spriteOffset * pixelsPerUnit;
+
+    partTransform.sizeDelta =
+        (Vector2)visual.Front.bounds.size * pixelsPerUnit;
+
+    // Apply mirroring to the sprite instead of the joint.
+    partTransform.localScale = new Vector3(
+        Mirrored ? -1f : 1f,
+        1f,
+        1f
+    );
+
+    part.enabled = true;
+}
 
     public void SetTint(Color color)
     {
