@@ -305,5 +305,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 539538c0a1264a34a86c0da966ed78fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MirroredLimbRotation
-  limbVisual: {fileID: 0}
-  animator: {fileID: 0}
+  limbVisual: {fileID: 6637553036357469366}
+  neutralZRotation: 0
