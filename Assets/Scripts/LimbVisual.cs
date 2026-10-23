@@ -12,6 +12,8 @@ public class LimbVisual : MonoBehaviour
     [Tooltip("Tick on left-side limbs, like a variant of the right arm, so their front and back views are mirrored.")]
     [SerializeField] private bool mirrored;
 
+    public Facing CurrentFacing { get; private set; }
+
     public Sprite Front => front;
     public bool Mirrored => mirrored;
 
@@ -20,6 +22,8 @@ public class LimbVisual : MonoBehaviour
 
     public void SetFacing(Facing facing)
     {
+        CurrentFacing = facing;
+        
         switch (facing)
         {
             case Facing.Down:

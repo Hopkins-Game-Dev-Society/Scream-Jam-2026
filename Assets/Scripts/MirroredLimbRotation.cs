@@ -14,6 +14,49 @@ public class MirroredLimbRotation : MonoBehaviour
         }
     }
 
+
+    private void LateUpdate()
+{
+    if (limbVisual == null)
+    {
+        return;
+    }
+
+    bool isSideFacing =
+        limbVisual.CurrentFacing == Facing.Left ||
+        limbVisual.CurrentFacing == Facing.Right;
+
+    // Only enforce mirrored X scale for front/back views.
+    if (!isSideFacing)
+    {
+        Vector3 scale = transform.localScale;
+
+        if (limbVisual.Mirrored)
+        {
+            scale.x = -Mathf.Abs(scale.x);
+        }
+        else
+        {
+            scale.x = Mathf.Abs(scale.x);
+        }
+
+        transform.localScale = scale;
+    }
+
+    // Keep the rotation correction for mirrored limbs.
+    if (!limbVisual.Mirrored)
+    {
+        return;
+    }
+
+    Vector3 angles = transform.localEulerAngles;
+    float signedZ = Mathf.DeltaAngle(0f, angles.z);
+    angles.z = -signedZ;
+
+    transform.localRotation = Quaternion.Euler(angles);
+}
+
+    /*
     private void LateUpdate()
     {
         if (limbVisual == null)
@@ -46,8 +89,60 @@ public class MirroredLimbRotation : MonoBehaviour
         angles.z = -signedZ;
 
         transform.localRotation = Quaternion.Euler(angles);
-    }
+    } */
 }
+
+
+/*
+using UnityEngine;
+
+[DefaultExecutionOrder(100)]
+public class MirroredLimbRotation : MonoBehaviour
+{
+    [SerializeField] private LimbVisual limbVisual;
+
+    private void Awake()
+    {
+        if (limbVisual == null)
+        {
+            limbVisual = GetComponent<LimbVisual>();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (limbVisual == null)
+        {
+            return;
+        }
+
+        Vector3 scale = transform.localScale;
+
+        // Mirrored limbs must always have a negative X scale. Except if it's a side animation
+        if (limbVisual.Mirrored)
+        {
+            scale.x = -Mathf.Abs(scale.x);
+        }
+        else
+        {
+            scale.x = Mathf.Abs(scale.x);
+        }
+
+        transform.localScale = scale;
+
+        if (!limbVisual.Mirrored)
+        {
+            return;
+        }
+
+        // Reverse the Animator's local Z rotation.
+        Vector3 angles = transform.localEulerAngles;
+        float signedZ = Mathf.DeltaAngle(0f, angles.z);
+        angles.z = -signedZ;
+
+        transform.localRotation = Quaternion.Euler(angles);
+    }
+} */
 
 
 /*
