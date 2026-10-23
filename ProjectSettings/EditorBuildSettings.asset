@@ -8,8 +8,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TitleScreen.unity
     guid: 37b7637db581241ac913ea011a38af6a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Brady_sandbox_4.unity
+    guid: 7de81a66af396426a81175d13bfca1ea
+  - enabled: 1
+    path: Assets/Scenes/Brady_sandbox_3.unity
+    guid: 91de1c3c8d6c544c0984a29741fd2f4d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

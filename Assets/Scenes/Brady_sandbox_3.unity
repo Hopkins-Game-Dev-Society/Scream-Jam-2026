@@ -433,6 +433,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &963060844 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5509835751084089302, guid: d2e0dc92447ec4e5895ed0b97fe645d6, type: 3}
+  m_PrefabInstance: {fileID: 2094716137}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1100672659
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -444,10 +449,6 @@ PrefabInstance:
     - target: {fileID: 1187809877519591716, guid: 2bea1cbcefa3b4a928a1e20c095e9e25, type: 3}
       propertyPath: m_Name
       value: LevelAudio
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428750979012676754, guid: 2bea1cbcefa3b4a928a1e20c095e9e25, type: 3}
-      propertyPath: m_Volume
-      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5770484531443344257, guid: 2bea1cbcefa3b4a928a1e20c095e9e25, type: 3}
       propertyPath: m_LocalPosition.x
@@ -489,6 +490,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7580534795552302192, guid: 2bea1cbcefa3b4a928a1e20c095e9e25, type: 3}
+      propertyPath: gameOverPanel
+      value: 
+      objectReference: {fileID: 963060844}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

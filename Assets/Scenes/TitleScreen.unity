@@ -1225,7 +1225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec849fd518eb84104bfa0b70a8ca2e31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TitleScreen
-  gameScene: SampleScene
+  gameScene: Brady_sandbox_3
   quitButton: {fileID: 352169633}
   sfxSource: {fileID: 1787740991}
   clickSound: {fileID: 8300000, guid: 74e888ed19f724835982e6f919ba7cb5, type: 3}

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class TitleScreen : MonoBehaviour
 {
     [Tooltip("Scene the Play button loads. It must be in the Build Profile's scene list.")]
-    [SerializeField] private string gameScene = "SampleScene";
+    [SerializeField] private string gameScene = "Brady_sandbox_3";
 
     [Tooltip("Hidden in web builds where the game can't close the browser tab.")]
     [SerializeField] private GameObject quitButton;
